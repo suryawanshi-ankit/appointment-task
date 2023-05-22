@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from "./components/Header";
+import ShowAllAppointments from './components/ShowAllAppointments';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-2">
             Create Appointments
           </button>
+        </div>
+        <div className='mt-8'>
+          <ShowAllAppointments />
         </div>
       </div>
     </div>
