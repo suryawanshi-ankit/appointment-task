@@ -1,8 +1,6 @@
 import { IAppointment } from "../types";
 
 export const availableSlots = (data: IAppointment[], fromTime: string, toTime: string) => {
-  console.log('finding available slots');
-  console.log(data);
   let endTime = '';
   let timeSlostOpt:IAppointment = { from: '', to: '', appointment: '' };
   data.map((d, index) => {
@@ -26,12 +24,9 @@ export const availableSlots = (data: IAppointment[], fromTime: string, toTime: s
           let splitToTime1 = d.to.split(':');
           timeSlostOpt = { from: d.to, to: `${+splitToTime1[0] + diffNewHour}:${+splitToTime1[1] + diffNewMin}`, appointment: `A${data.length + 1}` };
         }
-  
-        console.log(diffNewHour, diffNewMin);
-        console.log(diffNewHour1, diffNewMin1, endTime, d.from);
+
       }
     }
   })
-  console.log('timeSlostOpt', timeSlostOpt)
   return timeSlostOpt;
 }

@@ -6,24 +6,29 @@ import { getIsTimeSlotAvailable } from '../utility/getIsTimeSlotAvailable';
 import { getLocalStorageData } from '../utility/getLocalStorage';
 import { setLocalStorageData } from '../utility/setLocalStorage';
 import { availableSlots } from '../utility/availableSlots';
+import { IAppointment } from '../types';
+import SuggestionModal from './SuggestionModal';
+
 
 
 const TimePickerComponent = () => {
   const [fromValue, setFromValue] = useState<string>('12:00');
   const [toValue, setToValue] = useState<string>('13:00');
-  const [showTimeOption, setShowTimeOption] = useState({});
-
-  console.log(fromValue, toValue);
+  const [showTimeOption, setShowTimeOption] = useState<IAppointment>({
+    from: "",
+    to: "",
+    appointment: ""
+  });
+  const [openSuggestion, setOpenSuggestion] = useState<boolean>(false);
 
   const handleAddAppointment = () => {
     if (fromValue !== "" && toValue !== "") {
       const isSlotNotPresent = getIsTimeSlotAvailable(fromValue, toValue);
-      console.log("isSlotPresent", isSlotNotPresent);
       let storageData = getLocalStorageData();
       if (isSlotNotPresent) {
         const availableTimeSlot = availableSlots(storageData, fromValue, toValue);
-        setShowTimeOption(availableTimeSlot)
-        console.log('availableTimeSlot', availableTimeSlot);
+        setShowTimeOption(availableTimeSlot);
+        setOpenSuggestion(true);
       } else {
         storageData = [...storageData, {'from': fromValue, 'to': toValue, 'appointment': `A${storageData.length+1}`}]
         setLocalStorageData(storageData);
@@ -33,7 +38,19 @@ const TimePickerComponent = () => {
     }
   }
 
-  console.log('showTimeOption', showTimeOption);
+  const handleSuggestionSelection = (isAccepted: boolean) => {
+    if (isAccepted) {
+      let storageData = getLocalStorageData();
+      storageData = [...storageData, showTimeOption]
+      setLocalStorageData(storageData);
+    }
+    setShowTimeOption({
+      from: "",
+      to: "",
+      appointment: ""
+    });
+    setOpenSuggestion(false);
+  }
 
   return (
     <>
@@ -63,36 +80,15 @@ const TimePickerComponent = () => {
       >
         Add Appointment
       </button>
-
+      {openSuggestion && 
+        <SuggestionModal 
+          handleOpenModel={setOpenSuggestion} 
+          handleSuggestionSelection={handleSuggestionSelection}
+          showTimeOption={showTimeOption}
+        />
+      }
     </>
   );
 }
 
 export default TimePickerComponent;
-
-
-/*
-if (localStorage.getItem("appointments")) {
-        const localStorageValue = localStorage.getItem("appointments");
-        if (localStorageValue !== null) {
-          let parsedStorageValue = JSON.parse(localStorageValue);
-          parsedStorageValue.map((d: any) => {
-            console.log('21', d, fromValue);
-            if (d.from === fromValue) {
-              console.log('23', d, fromValue);
-              setNoSlot(true);
-            }
-          });
-          if (!noSlot) {
-            parsedStorageValue = [...parsedStorageValue, { 'from': fromValue, 'to': toValue, 'appointment': `A${parsedStorageValue.length+1}` }];
-            localStorage.setItem("appointments", JSON.stringify(parsedStorageValue));
-          } else {
-            console.log('available slots...');
-          }
-          console.log(parsedStorageValue);
-        }
-      } else {
-        localStorage.setItem("appointments", JSON.stringify([{ 'from': fromValue, 'to': toValue, 'appointment': 'A1' }]));
-      }
-      console.log('fromValue', toValue, fromValue);
-*/

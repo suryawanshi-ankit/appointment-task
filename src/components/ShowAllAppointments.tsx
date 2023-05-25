@@ -3,19 +3,16 @@ import { getLocalStorageData } from '../utility/getLocalStorage';
 
 const tableHeading = ['Appointment', 'From', 'To'];
 const sampleData = [
-  {'from': '11:00', 'to': '12:00', 'appointment': 'A1'}
+  { 'from': '11:00', 'to': '12:00', 'appointment': 'A1' }
 ];
 
 const ShowAllAppointments = () => {
   const [appointmentData, setAppointmentData] = useState(sampleData);
 
   useEffect(() => {
-      const storageData = getLocalStorageData();
-      console.log('storageData', storageData);
-      setAppointmentData(storageData);
+    const storageData = getLocalStorageData();
+    setAppointmentData(storageData);
   }, [])
-
-  console.log(appointmentData);
 
   return (
     <>
