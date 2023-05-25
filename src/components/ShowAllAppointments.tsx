@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getLocalStorageData } from '../utility/getLocalStorage';
 
 const tableHeading = ['Appointment', 'From', 'To'];
 const sampleData = [
-  {'from': '11:00', 'to': '12:00', 'appointment': 'A1'},
-  {'from': '12:30', 'to': '12:45', 'appointment': 'A2'},
-  {'from': '01:00', 'to': '01:30', 'appointment': 'A3'},
-  // {'form': '', 'to': 12, 'meridian': 'am'},
-  // {'form': 11, 'to': 12, 'meridian': 'am'},
+  {'from': '11:00', 'to': '12:00', 'appointment': 'A1'}
 ];
 
 const ShowAllAppointments = () => {
+  const [appointmentData, setAppointmentData] = useState(sampleData);
+
+  useEffect(() => {
+      const storageData = getLocalStorageData();
+      console.log('storageData', storageData);
+      setAppointmentData(storageData);
+  }, [])
+
+  console.log(appointmentData);
+
   return (
     <>
       <div className='text-[24px] mt-[60px] mb-[20px] font-semibold text-center'>
@@ -25,8 +32,8 @@ const ShowAllAppointments = () => {
             </tr>
           </thead>
           <tbody>
-            {sampleData?.map((appointment) => (
-              <tr key={''} className='font-semibold h-[40px]'>
+            {appointmentData.length && appointmentData?.map((appointment) => (
+              <tr key={appointment.appointment} className='font-semibold h-[40px]'>
                 <td className='text-[14px] text-center'>{appointment.appointment}</td>
                 <td className='text-[14px] text-center'>{appointment.from} AM</td>
                 <td className='text-[14px] text-center'>{appointment.to} PM</td>
