@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getIsTimeSlotAvailable } from '../utility/getIsTimeSlotAvailable';
 import { getLocalStorageData } from '../utility/getLocalStorage';
 import { setLocalStorageData } from '../utility/setLocalStorage';
@@ -32,6 +34,7 @@ const TimePickerComponent: React.FC = () => {
       } else {
         storageData = [...storageData, { 'from': fromValue, 'to': toValue, 'appointment': `A${storageData.length + 1}` }]
         setLocalStorageData(storageData);
+        toast("New appointment is added!");
       }
     } else {
       setError(true);
@@ -51,10 +54,12 @@ const TimePickerComponent: React.FC = () => {
       appointment: ""
     });
     setOpenSuggestion(false);
+    toast("New appointment is added!");
   }
 
   return (
     <>
+      <ToastContainer toastStyle={{ backgroundColor: "#5eba7d", color: 'white' }}/>
       <div className='text-[24px] mt-[0px] mb-[30px] font-semibold text-center'>
         <span>Create New Appointments</span>
       </div>
