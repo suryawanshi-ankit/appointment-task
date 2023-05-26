@@ -1,4 +1,3 @@
-import { IAppointment } from '../types';
 import { timeConverter } from '../utility/timeConverter';
 import { ISuggestionModal } from '../types'
 

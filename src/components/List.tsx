@@ -1,7 +1,6 @@
-import { timeConverter } from '../utility/timeConverter';
+import { timeConverter } from "../utility/timeConverter";
 import { IAppointment, IList } from "../types";
-
-const tableHeading = ['Appointment', 'From', 'To'];
+import { tableHeading } from "../utility/initialData";
 
 const List = ({appointmentData}: IList) => {
   return (

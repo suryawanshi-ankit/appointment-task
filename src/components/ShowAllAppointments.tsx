@@ -4,22 +4,10 @@ import { getCalendarFormattedData } from '../utility/getCalendarFormattedData';
 import Scheduler from './Scheduler';
 import List from './List';
 import { IAppointment, ICalendarFormat } from '../types';
-
-const sampleData = [
-  { 'from': '11:00', 'to': '12:00', 'appointment': 'A1' }
-];
-
-const formatedData = [
-  {
-    event_id: 1,
-    title: 'Appoint 1',
-    start: new Date('2023-05-26T09:30:00.000Z'),
-    end: new Date('2023-05-26T10:30:00.000Z')
-  }
-];
+import { initialData, formatedData } from '../utility/initialData';
 
 const ShowAllAppointments = () => {
-  const [appointmentData, setAppointmentData] = useState<IAppointment[]>(sampleData);
+  const [appointmentData, setAppointmentData] = useState<IAppointment[]>(initialData);
   const [calendarData, setCalendarData] = useState<ICalendarFormat[]>(formatedData);
   const [toggle, setToggle] = useState('list');
 
@@ -38,7 +26,7 @@ const ShowAllAppointments = () => {
         </div>
         <button
           className='bg-transparent w-[150px] hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-          onClick={() => { toggle === 'list' ? setToggle('calendar') : setToggle('list') }}
+          onClick={() => { setToggle(toggle === 'list' ? 'calendar' : 'list') }}
         >
           {toggle === 'list' ? 'Calendar View' : 'List View'}
         </button>

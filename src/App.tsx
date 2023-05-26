@@ -10,7 +10,8 @@ function App() {
   const [buttonToggle, setButtonToggle] = useState<string>('show_all');
 
   const handleButtonToggle = () => {
-    buttonToggle === 'show_all' ? setButtonToggle('create_appointment') : setButtonToggle('show_all');
+    const toggleResult = buttonToggle === 'show_all' ? 'create_appointment' : 'show_all';
+    setButtonToggle(toggleResult);
   }
 
   useEffect(() => {
