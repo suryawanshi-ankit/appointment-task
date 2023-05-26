@@ -9,8 +9,6 @@ import { availableSlots } from '../utility/availableSlots';
 import { IAppointment } from '../types';
 import SuggestionModal from './SuggestionModal';
 
-
-
 const TimePickerComponent = () => {
   const [fromValue, setFromValue] = useState<string>('12:00');
   const [toValue, setToValue] = useState<string>('13:00');
@@ -20,9 +18,11 @@ const TimePickerComponent = () => {
     appointment: ""
   });
   const [openSuggestion, setOpenSuggestion] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const handleAddAppointment = () => {
-    if (fromValue !== "" && toValue !== "") {
+    if (fromValue && toValue) {
+      setError(false);
       const isSlotNotPresent = getIsTimeSlotAvailable(fromValue, toValue);
       let storageData = getLocalStorageData();
       if (isSlotNotPresent) {
@@ -34,6 +34,7 @@ const TimePickerComponent = () => {
         setLocalStorageData(storageData);
       }
     } else {
+      setError(true);
       console.log('From or To time is not entered');
     }
   }
@@ -58,28 +59,32 @@ const TimePickerComponent = () => {
         <span>Create New Appointments</span>
       </div>
       <div className='mb-2'>
-        <label>From: </label>
+        <span>From: </span>
         <TimePicker
           onChange={(value) => setFromValue(value)}
           value={fromValue}
           className={''}
+          shouldOpenClock={() => false}
         />
       </div>
       <div className='mb-2'>
-        <label>To: </label>
+        <span className='mr-4'>To: </span>
         <TimePicker
           onChange={(value) => setToValue(value)}
           value={toValue}
           className={''}
+          shouldOpenClock={() => false}
         />
       </div>
       <button
         className="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         data-ripple-dark="true"
         onClick={() => handleAddAppointment()}
+        disabled={ !fromValue || !toValue}
       >
         Add Appointment
       </button>
+      {error && <h2 className='text-red-500'>Please enter both from & to time</h2>}
       {openSuggestion && 
         <SuggestionModal 
           handleOpenModel={setOpenSuggestion} 

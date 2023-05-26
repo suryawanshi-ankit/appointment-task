@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getLocalStorageData } from '../utility/getLocalStorage';
+import { timeConverter } from '../utility/timeConverter';
 
 const tableHeading = ['Appointment', 'From', 'To'];
 const sampleData = [
@@ -32,8 +33,8 @@ const ShowAllAppointments = () => {
             {appointmentData.length && appointmentData?.map((appointment) => (
               <tr key={appointment.appointment} className='font-semibold h-[40px]'>
                 <td className='text-[14px] text-center'>{appointment.appointment}</td>
-                <td className='text-[14px] text-center'>{appointment.from} AM</td>
-                <td className='text-[14px] text-center'>{appointment.to} PM</td>
+                <td className='text-[14px] text-center'>{timeConverter(appointment.from)}</td>
+                <td className='text-[14px] text-center'>{timeConverter(appointment.to)}</td>
               </tr>
             ))
             }
