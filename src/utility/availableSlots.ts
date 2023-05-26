@@ -3,7 +3,7 @@ import { IAppointment } from "../types";
 export const availableSlots = (data: IAppointment[], fromTime: string, toTime: string) => {
   let endTime = '';
   let timeSlostOpt:IAppointment = { from: '', to: '', appointment: '' };
-  data.map((d, index) => {
+  data.forEach((d, index) => {
     if (timeSlostOpt.from === "") {
       if (endTime === '' || d.from === endTime) {
         endTime = d.to

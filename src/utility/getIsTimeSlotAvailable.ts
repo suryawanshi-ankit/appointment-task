@@ -4,7 +4,7 @@ import { IAppointment } from "../types";
 export const getIsTimeSlotAvailable = (fromTime: string, toTime: string) => {
   const presentAppointments = getLocalStorageData();
   let haveAppointmentInSlot = false;
-  presentAppointments.map((d: IAppointment) => {
+  presentAppointments.forEach((d: IAppointment) => {
     let splitFromTime = d.from.split(':');
     let splitToTime = d.to.split(':');
     
