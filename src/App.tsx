@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Header from "./components/Header";
 import TimePickerComponent from "./components/TimePickerComponent";
@@ -19,20 +19,17 @@ function App() {
 
   return (
     <div className="text-center	">
-      <Header />
-      <div
-        className="bg-neutral-50 px-6 py-20 text-center text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200"
-      >
-        <div>
-          <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 w-[225px]"
-              onClick={handleButtonToggle}
-          >
-            {buttonToggle === 'show_all' ? 'Create Appointments' : 'Show All Appointments'}
-          </button>
-        </div>
-        <div className='mt-8'>
-          { buttonToggle === 'show_all' ? <ShowAllAppointments /> : <TimePickerComponent />}
+      <Header
+        handleButtonToggle={handleButtonToggle}
+        buttonToggle={buttonToggle}
+      />
+      <div className="max-w-[1200px] w-full mx-auto">
+        <div
+          className="bg-neutral-100 px-12 mt-10 py-10 text-center text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200"
+        >
+          <div className='mt-0'>
+            {buttonToggle === 'show_all' ? <ShowAllAppointments /> : <TimePickerComponent />}
+          </div>
         </div>
       </div>
     </div>
