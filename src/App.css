@@ -6,3 +6,7 @@ table {
 tr:nth-child(even) {
   background-color: #e5ebeb;
 }
+
+.timePicker select option:first-child {
+  display: none;
+}

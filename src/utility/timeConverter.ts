@@ -3,9 +3,9 @@ export const timeConverter = (timeSlot: string): string => {
 
   if (time.length > 1) {
     // @ts-ignore
-    time = time.slice (1);
+    time = time.slice(1);
     time[5] = +time[0] < 12 ? ' AM' : ' PM';
     time[0] = (+time[0] % 12 || 12).toString();
   }
-  return time.join ('');
+  return time.join('');
 }

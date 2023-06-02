@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
@@ -8,6 +8,7 @@ import { getIsTimeSlotAvailable } from '../utility/getIsTimeSlotAvailable';
 import { getLocalStorageData } from '../utility/getLocalStorage';
 import { setLocalStorageData } from '../utility/setLocalStorage';
 import { availableSlots } from '../utility/availableSlots';
+import { minutesOfDay } from '../utility/convertTimeToMinutes';
 import { IAppointment } from '../types';
 import SuggestionModal from './SuggestionModal';
 
@@ -21,6 +22,7 @@ const TimePickerComponent: React.FC = () => {
   });
   const [openSuggestion, setOpenSuggestion] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [disableButton, setDisableButton] = useState(false);
 
   const handleAddAppointment = () => {
     if (fromValue && toValue) {
@@ -47,6 +49,9 @@ const TimePickerComponent: React.FC = () => {
       let storageData = getLocalStorageData();
       storageData = [...storageData, showTimeOption]
       setLocalStorageData(storageData);
+      toast("New appointment is added!");
+    } else {
+      toast("Please select new time slot!");
     }
     setShowTimeOption({
       from: "",
@@ -54,8 +59,12 @@ const TimePickerComponent: React.FC = () => {
       appointment: ""
     });
     setOpenSuggestion(false);
-    toast("New appointment is added!");
   }
+
+  useEffect(() => {
+    let disable = !fromValue || !toValue || (fromValue === toValue) || (minutesOfDay(toValue.split(':')) < minutesOfDay(fromValue.split(':')));
+    setDisableButton(disable);
+  }, [fromValue, toValue])
 
   return (
     <>
@@ -69,7 +78,7 @@ const TimePickerComponent: React.FC = () => {
           <TimePicker
             onChange={(value) => setFromValue(value)}
             value={fromValue}
-            className={''}
+            className="timePicker"
             shouldOpenClock={() => false}
           />
         </div>
@@ -78,7 +87,7 @@ const TimePickerComponent: React.FC = () => {
           <TimePicker
             onChange={(value) => setToValue(value)}
             value={toValue}
-            className={''}
+            className="timePicker"
             shouldOpenClock={() => false}
           />
         </div>
@@ -87,7 +96,7 @@ const TimePickerComponent: React.FC = () => {
         className="middle none center mr-3 rounded-lg border border-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         data-ripple-dark="true"
         onClick={() => handleAddAppointment()}
-        disabled={!fromValue || !toValue}
+        disabled={disableButton}
       >
         Add Appointment
       </button>

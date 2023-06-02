@@ -29,3 +29,8 @@ export interface IList {
 export interface ICalendarData {
   calendarData: ICalendarFormat[]
 }
+
+export interface IAvailableSlot {
+  from: string,
+  to: string
+}
